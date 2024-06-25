@@ -1,3 +1,12 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    // window나 document같은 글로벌 함수 사용 가능하게(브라우저 환경에서 작동함을 명시)
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "extends": ["next/core-web-vitals", "airbnb", "prettier"],
+  "next": {
+    "rootDirectory": "./src"
+  }
 }
