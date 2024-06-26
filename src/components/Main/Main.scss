@@ -1,0 +1,25 @@
+#mainWrapper {
+  display: flex;
+  justify-content: center;
+  #main {
+    width: 100%;
+    max-width: 1200px;
+    padding: 24px 0;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #mainWrapper {
+    #main {
+      padding: 24px 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 376px) {
+  #mainWrapper {
+    #main {
+      padding: 16px 16px;
+    }
+  }
+}

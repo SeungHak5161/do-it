@@ -1,0 +1,30 @@
+#gnb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid $slate200;
+  #gnbButtonWrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #gnb {
+    #gnbButtonWrapper {
+      width: 100%;
+      padding-left: 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 376px) {
+  #gnb {
+    #gnbButtonWrapper {
+      padding-left: 16px;
+    }
+  }
+}

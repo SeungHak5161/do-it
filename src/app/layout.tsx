@@ -1,3 +1,5 @@
+import GNB from '@/components/Gnb/Gnb'
+import Main from '@/components/Main/Main'
 import '@/styles/globals.css'
 import { NanumSquare } from '@/utils/fonts'
 import type { Metadata } from 'next'
@@ -7,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Do It!',
   description: 'todo app for codeit KDT project',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/images/favicon.svg',
   },
 }
 
@@ -18,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={NanumSquare.className}>{children}</body>
+      <body className={NanumSquare.className}>
+        <GNB />
+        <Main>{children}</Main>
+      </body>
     </html>
   )
 }
