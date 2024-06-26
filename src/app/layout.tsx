@@ -1,9 +1,29 @@
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 
-const inter = Inter({ subsets: ['latin'] })
+// otf 파일을 로컬 폰트로 등록
+const NanumSquare = localFont({
+  src: [
+    {
+      path: './fonts/NanumSquareL.otf',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: './fonts/NanumSquareR.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/NanumSquareB.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+})
 
+// 메타데이터 + favicon 설정
 export const metadata: Metadata = {
   title: 'Do It!',
   description: 'todo app for codeit KDT project',
@@ -19,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={NanumSquare.className}>{children}</body>
     </html>
   )
 }
