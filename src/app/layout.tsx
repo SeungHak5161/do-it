@@ -1,27 +1,6 @@
 import '@/styles/globals.css'
+import { NanumSquare } from '@/utils/fonts'
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
-
-// otf 파일을 로컬 폰트로 등록
-const NanumSquare = localFont({
-  src: [
-    {
-      path: './fonts/NanumSquareL.otf',
-      weight: '200',
-      style: 'normal',
-    },
-    {
-      path: './fonts/NanumSquareR.otf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/NanumSquareB.otf',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-})
 
 // 메타데이터 + favicon 설정
 export const metadata: Metadata = {
