@@ -3,3 +3,9 @@
 @tailwind utilities;
 @import '/src/styles/reset.css';
 @import '/src/styles/variables.scss';
+
+input[type='text'] {
+  &:focus {
+    outline: none;
+  }
+}
