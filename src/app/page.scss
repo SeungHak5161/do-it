@@ -1,0 +1,38 @@
+#pageWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  #inputWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    #inputTodo {
+      width: 100%;
+      height: 51.5px;
+      padding: 17px 24px 17.5px;
+      background-color: $slate100;
+      border: 1px solid $slate900;
+      border-radius: 23px;
+      margin-right: 21px;
+      box-shadow: 5px 4.5px $slate900;
+    }
+    #btnAddTodo {
+      width: 168px;
+      height: 56px;
+    }
+  }
+}
+
+@media screen and (max-width: 376px) {
+  #pageWrapper {
+    #inputWrapper {
+      #inputTodo {
+        padding: 17px 16px 21px;
+        margin-right: 13px;
+      }
+    }
+  }
+}
