@@ -15,10 +15,19 @@ export const postTodo = (data: IPostTodo) => {
 }
 
 /**
- * 항목 수정
+ * 항목 상세 조회
  * @param itemId
  * @type string
  */
 export const getTodoDetail = (itemId: string) => {
   return service.get(`/items/${itemId}`)
+}
+
+/**
+ * 항목 수정
+ * @param itemId
+ * @param data
+ */
+export const updateTodo = (itemId: string, data: IUpdateTodo) => {
+  return service.patch(`/items/${itemId}`, data)
 }
