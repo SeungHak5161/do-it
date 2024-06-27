@@ -1,0 +1,12 @@
+.todoItem {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border: 2px solid $slate900;
+  border-radius: 27px;
+  padding: 0 14px;
+  & > span {
+    margin-left: 16px;
+  }
+}

@@ -5,8 +5,8 @@ interface IPostTodo {
 
 /** 항목 조회(목록 조회 시) */
 interface ITodoSimple {
-  id: number
-  isComplete: boolean
+  id: string
+  isCompleted: boolean
   name: string
 }
 
@@ -20,9 +20,9 @@ interface ITodoDetail extends ITodoSimple {
 /** 항목 수정 */
 interface IUpdateTodo {
   name: string
-  memo: string
-  imageUrl: string
-  isComplete: boolean
+  memo?: string
+  imageUrl?: string
+  isCompleted: boolean
 }
 
 /** 이미지 업로드 */
