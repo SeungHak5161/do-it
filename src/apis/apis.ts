@@ -31,3 +31,19 @@ export const getTodoDetail = (itemId: string) => {
 export const updateTodo = (itemId: string, data: IUpdateTodo) => {
   return service.patch(`/items/${itemId}`, data)
 }
+
+/**
+ * 이미지 업로드
+ * @param data
+ */
+export const uploadImage = (data: IUploadImage) => {
+  return service.post('/images/upload', data)
+}
+
+/**
+ * 항목 삭제
+ * @param itemId
+ */
+export const deleteTodo = (itemId: string) => {
+  return service.delete(`/items/${itemId}`)
+}
