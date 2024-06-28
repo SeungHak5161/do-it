@@ -2,10 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import './Gnb.scss'
 
 export default function GNB() {
+  const pathname = usePathname()
+
   const [logoConf, setLogoConf] = useState<any>({
     src: '/images/textlogo.svg',
     width: 151,
@@ -31,14 +34,25 @@ export default function GNB() {
     <>
       <nav id="gnb">
         <div id="gnbButtonWrapper">
-          <Link href="/">
-            <Image
-              src={logoConf.src}
-              alt="Do It!"
-              width={logoConf.width}
-              height={40}
-            />
-          </Link>
+          {pathname === '/' ? (
+            <a href="/">
+              <Image
+                src={logoConf.src}
+                alt="Do It!"
+                width={logoConf.width}
+                height={40}
+              />
+            </a>
+          ) : (
+            <Link href="/">
+              <Image
+                src={logoConf.src}
+                alt="Do It!"
+                width={logoConf.width}
+                height={40}
+              />
+            </Link>
+          )}
         </div>
       </nav>
     </>
