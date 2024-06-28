@@ -1,6 +1,8 @@
 #mainWrapper {
   display: flex;
   justify-content: center;
+  background-color: $gray50;
+  min-height: 100vh;
   #main {
     width: 100%;
     max-width: 1200px;
@@ -16,7 +18,7 @@
   }
 }
 
-@media screen and (max-width: 376px) {
+@media screen and (max-width: 375px) {
   #mainWrapper {
     #main {
       padding: 16px 16px;
