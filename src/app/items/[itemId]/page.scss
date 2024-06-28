@@ -1,0 +1,96 @@
+#pageWrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  #nameWrapper {
+    display: flex;
+    width: 100%;
+    min-height: 64px;
+    align-items: center;
+    border: 2px solid $slate900;
+    border-radius: 24px;
+    justify-content: center;
+    padding: 0 24px;
+    & > span {
+      margin-left: 16px;
+      color: $slate900;
+      text-decoration: underline;
+    }
+  }
+  #todoListWrapper {
+    margin: 24px 0 24px;
+    display: flex;
+    justify-content: space-between;
+    & > div {
+      width: 100%;
+      height: 311px;
+      border-radius: 24px;
+      &:first-child {
+        margin-right: 24px;
+      }
+    }
+    #imgWrapper {
+      max-width: 384px;
+      background-color: $slate50;
+      border: 2px dashed $slate300;
+    }
+    #memoWrapper {
+      max-width: 588px;
+      background: url('/images/memo.png') no-repeat center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      #titleWrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        & > span {
+          margin: 24px 0;
+          color: $amber800;
+          font-weight: 800;
+        }
+      }
+      #memo {
+        max-width: 100%;
+        height: 100%;
+        background-color: unset;
+        text-align: center;
+        padding: 0 24px;
+      }
+    }
+  }
+  #buttonWrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: 744px) {
+  #pageWrapper {
+    #todoListWrapper {
+      flex-direction: column;
+      & > div {
+        &:first-child {
+          margin-right: 0;
+          margin-bottom: 24px;
+        }
+      }
+      #imgWrapper {
+        max-width: unset;
+      }
+      #memoWrapper {
+        max-width: unset;
+      }
+    }
+    #buttonWrapper {
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  #pageWrapper {
+    #todoListWrapper {
+      margin: 17px 0 24px;
+    }
+  }
+}
