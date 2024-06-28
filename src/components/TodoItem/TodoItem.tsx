@@ -30,7 +30,7 @@ export default function TodoItem({
               ClickEvent(id)
             }}
           />
-          <span>{name}</span>
+          <span className="elipse">{name}</span>
         </div>
       </Link>
     </>

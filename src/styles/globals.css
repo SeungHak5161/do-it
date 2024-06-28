@@ -9,3 +9,16 @@ input[type='text'] {
     outline: none;
   }
 }
+
+textarea {
+  resize: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.elipse {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
