@@ -1,7 +1,9 @@
 'use client'
-import { getTodoDetail } from '@/apis/apis'
+import { deleteTodo, getTodoDetail, updateTodo } from '@/apis/apis'
 import Button from '@/components/Button/Button'
+import { checkFileSize } from '@/utils/utils'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import './page.scss'
 
@@ -14,16 +16,27 @@ export default function page({ params }: { params: { itemId: string } }) {
     memo: '',
     tenantId: '',
   })
-  const { id, isCompleted, name, imageUrl, memo, tenantId } = todoDetail
+  const { id, isCompleted, name, imageUrl } = todoDetail
+
+  const router = useRouter()
 
   const memoRef = useRef<HTMLTextAreaElement>(null)
 
-  const changeTodoState = async () => {
+  const changeTodoState = async (changeCompleted?: boolean) => {
     try {
-      console.log(todoDetail)
-      // await updateTodo(id, {, isCompleted: !props.isCompleted })
+      const params: IUpdateTodo = {
+        name: name,
+        isCompleted: isCompleted,
+      }
+      if (changeCompleted !== undefined) {
+        params.isCompleted = changeCompleted
+      }
+      if (memoRef.current) params.memo = memoRef.current.value
+      if (imageUrl) params.imageUrl = imageUrl
+      await updateTodo(id, params)
+      getDetail()
     } catch (err) {
-      alert('Todo 상태 변경에 실패했습니다.')
+      alert('Todo 수정에 실패했습니다.')
       console.log(err)
     }
   }
@@ -38,6 +51,52 @@ export default function page({ params }: { params: { itemId: string } }) {
       console.log(err)
     }
   }
+
+  const onImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = e.target.files?.[0]
+      // 파일이 없는 경우 return
+      if (!file) return
+      // 용량 제한
+      if (!checkFileSize(file, 5)) {
+        alert('파일 사이즈는 5MB 이하로 업로드 가능합니다.')
+        return
+      }
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = async () => {
+        const image = reader.result as string
+        // 이미지 업로드 api에서 에러가 발생하는데 원인을 찾을 수 없어서 우선 주석처리
+        // try {
+        //   const res = await uploadImage({ image: image })
+        //   setTodoDetail({ ...todoDetail, imageUrl: res.data.url })
+        // } catch (err) {
+        //   alert('이미지 업로드에 실패했습니다.')
+        //   console.log(err)
+        // }
+        setTodoDetail({ ...todoDetail, imageUrl: image })
+      }
+    } catch (err) {
+      alert('이미지 업로드에 실패했습니다.')
+      console.log(err)
+    }
+  }
+
+  const deleteItem = async () => {
+    try {
+      await deleteTodo(id)
+    } catch (err) {
+      alert('Todo 삭제에 실패했습니다.')
+      console.log(err)
+    }
+  }
+
+  const handleActionThenRedirect = async (action: () => Promise<void>) => {
+    action().then(() => {
+      router.push('/')
+    })
+  }
+
   useEffect(() => {
     getDetail()
   }, [])
@@ -52,12 +111,46 @@ export default function page({ params }: { params: { itemId: string } }) {
             alt={isCompleted ? 'done' : 'undo'}
             width={32}
             height={32}
-            onClick={() => changeTodoState}
+            onClick={() => {
+              changeTodoState(!isCompleted)
+            }}
           />
           <span className="font-bold">{name}</span>
         </div>
         <div id="todoListWrapper">
-          <div id="imgWrapper"></div>
+          <div id="imgWrapper">
+            {imageUrl ? (
+              <Image
+                src={imageUrl}
+                alt={'todo image'}
+                width={100}
+                height={100}
+                layout="responsive"
+              />
+            ) : (
+              <Image
+                src="/images/img.svg"
+                alt="no image"
+                width={54}
+                height={54}
+              />
+            )}
+            <div
+              id="imgAddBtnWrapper"
+              className={imageUrl ? 'editImg' : 'addImg'}
+            >
+              <label htmlFor="attachImg" id="attachImglabel">
+                <input type="file" id="attachImg" onChange={onImageUpload} />
+              </label>
+              <Image
+                id="addImg"
+                src={imageUrl ? '/icons/edit.svg' : '/icons/plus.svg'}
+                alt="add image"
+                width={18}
+                height={18}
+              />
+            </div>
+          </div>
           <div id="memoWrapper">
             <div id="titleWrapper">
               <span>Memo</span>
@@ -70,9 +163,7 @@ export default function page({ params }: { params: { itemId: string } }) {
             text="수정완료"
             color="#E2E8F0"
             img="/icons/check.svg"
-            onClick={() => {
-              return null
-            }}
+            onClick={() => handleActionThenRedirect(changeTodoState)}
           />
           <Button
             text="삭제하기"
@@ -80,7 +171,7 @@ export default function page({ params }: { params: { itemId: string } }) {
             textColor="#fff"
             img="/icons/X.svg"
             onClick={() => {
-              return null
+              handleActionThenRedirect(deleteItem)
             }}
           />
         </div>
