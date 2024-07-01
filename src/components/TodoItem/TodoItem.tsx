@@ -26,7 +26,7 @@ export default function TodoItem({
             width={32}
             height={32}
             onClick={(e) => {
-              e.stopPropagation()
+              e.preventDefault()
               ClickEvent(id)
             }}
           />
