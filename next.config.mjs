@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: false,
   sassOptions: {
     includePaths: ['./src/styles'],
-    prependData: `@import "variable.scss";`,
+    prependData: `@import "variable.scss"; @import "animations.scss";`,
   },
 }
 

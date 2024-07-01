@@ -1,10 +1,11 @@
 'use client'
 import { deleteTodo, getTodoDetail, updateTodo } from '@/apis/apis'
 import Button from '@/components/Button/Button'
+import { LoadingContext } from '@/contexts/LoadingContext/LoadingProvider'
 import { checkFileSize } from '@/utils/utils'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import './page.scss'
 
 export default function page({ params }: { params: { itemId: string } }) {
@@ -17,6 +18,7 @@ export default function page({ params }: { params: { itemId: string } }) {
     tenantId: '',
   })
   const { id, isCompleted, name, imageUrl } = todoDetail
+  const { setLoading } = useContext(LoadingContext)
 
   const router = useRouter()
 
@@ -24,6 +26,7 @@ export default function page({ params }: { params: { itemId: string } }) {
 
   const changeTodoState = async (changeCompleted?: boolean) => {
     try {
+      setLoading(true)
       const params: IUpdateTodo = {
         name: name,
         isCompleted: isCompleted,
@@ -38,6 +41,8 @@ export default function page({ params }: { params: { itemId: string } }) {
     } catch (err) {
       alert('Todo 수정에 실패했습니다.')
       console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -52,8 +57,21 @@ export default function page({ params }: { params: { itemId: string } }) {
     }
   }
 
+  const getInitailDetail = async () => {
+    try {
+      setLoading(true)
+      getDetail()
+    } catch (err) {
+      alert('Todo 상세 조회에 실패했습니다.')
+      console.log(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const onImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
+      setLoading(true)
       const file = e.target.files?.[0]
       // 파일이 없는 경우 return
       if (!file) return
@@ -79,15 +97,20 @@ export default function page({ params }: { params: { itemId: string } }) {
     } catch (err) {
       alert('이미지 업로드에 실패했습니다.')
       console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
   const deleteItem = async () => {
     try {
+      setLoading(true)
       await deleteTodo(id)
     } catch (err) {
       alert('Todo 삭제에 실패했습니다.')
       console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -98,7 +121,7 @@ export default function page({ params }: { params: { itemId: string } }) {
   }
 
   useEffect(() => {
-    getDetail()
+    getInitailDetail()
   }, [])
 
   return (

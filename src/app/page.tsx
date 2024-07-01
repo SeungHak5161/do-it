@@ -2,8 +2,9 @@
 import { getTodoList, postTodo, updateTodo } from '@/apis/apis'
 import Button from '@/components/Button/Button'
 import TodoItem from '@/components/TodoItem/TodoItem'
+import { LoadingContext } from '@/contexts/LoadingContext/LoadingProvider'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import './page.scss'
 
 export default function Home() {
@@ -13,6 +14,8 @@ export default function Home() {
     addBtnColor: '#e2e8f0',
     noDataImgSize: '240',
   })
+
+  const { setLoading } = useContext(LoadingContext)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -24,15 +27,30 @@ export default function Home() {
       return
     }
     try {
+      setLoading(true)
       const params: IPostTodo = {
         name: todo,
       }
       await postTodo(params)
       inputRef.current.value = ''
-      getList()
+      await getList()
     } catch (err) {
       alert('Todo 등록에 실패했습니다.')
       console.log(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getInitialList = async () => {
+    try {
+      setLoading(true)
+      getList()
+    } catch (err) {
+      alert('Todo list 호출에 실패했습니다.')
+      console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -40,7 +58,6 @@ export default function Home() {
   const getList = async () => {
     try {
       const res = await getTodoList()
-      console.log(res.data)
       setTodoList(res.data)
     } catch (err) {
       alert('Todo list 호출에 실패했습니다.')
@@ -51,6 +68,7 @@ export default function Home() {
   /** Todo 아이템 완료 여부 변경 */
   const changeStateTodoItem = async (id: string) => {
     try {
+      setLoading(true)
       const updateTarget: ITodoSimple | undefined = todoList.find(
         (todo) => todo.id === id,
       )
@@ -62,12 +80,14 @@ export default function Home() {
     } catch (err) {
       alert('Todo 상태 변경에 실패했습니다.')
       console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
     // todo list 조회
-    getList()
+    getInitialList()
 
     // 화면 너비 변경에 따라 버튼 텍스트 변경
     const resizeEvent = () => {

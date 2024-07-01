@@ -1,5 +1,7 @@
 import GNB from '@/components/Gnb/Gnb'
+import Loading from '@/components/Loading/Loading'
 import Main from '@/components/Main/Main'
+import { LoadingProvider } from '@/contexts/LoadingContext/LoadingProvider'
 import '@/styles/globals.css'
 import { NanumSquare } from '@/utils/fonts'
 import type { Metadata } from 'next'
@@ -19,11 +21,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={NanumSquare.className}>
-        <GNB />
-        <Main>{children}</Main>
-      </body>
-    </html>
+    <LoadingProvider>
+      <html lang="en">
+        <body className={NanumSquare.className}>
+          <GNB />
+          <Main>{children}</Main>
+          <Loading />
+        </body>
+      </html>
+    </LoadingProvider>
   )
 }
